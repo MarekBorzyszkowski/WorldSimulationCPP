@@ -4,7 +4,8 @@
 World::World(int x, int y) :
 	xLength(x),
 	yLength(y),
-	turn(0){}
+	turn(0),
+	emptyPlace('.'){}
 
 int World::getXLength() const {
 	return xLength;
@@ -15,35 +16,38 @@ int World::getYLength() const {
 int World::getTurn() const {
 	return turn;
 }
-std::vector<Organism> World::getOrganisms() const {
+char World::getEmptyPlace() const {
+	return emptyPlace;
+}
+std::vector<Organism*> World::getOrganisms() const {
 	return organisms;
 }
-std::vector<Organism> World::getNewOrganisms() const {
+std::vector<Organism*> World::getNewOrganisms() const {
 	return newOrganisms;
 }
 
 void World::setTurn(int turn) {
 	this->turn = turn;
 }
-void World::setOrganisms(std::vector<Organism> organisms) {
+void World::setOrganisms(std::vector<Organism*> organisms) {
 	this->organisms = organisms;
 }
-void World::setNewOrganisms(std::vector<Organism> newOrganisms) {
+void World::setNewOrganisms(std::vector<Organism*> newOrganisms) {
 	this->newOrganisms = newOrganisms;
 }
 
 void World::makeTurn() {
 	std::vector<Action> actions;
-	for (int o = 0; o < organisms.size(); o++) {
-		if (positionOnBoard(organisms[o].getPosition())) {
-			actions = organisms[o].move();
-			for (int a = 0; a < actions.size(); a++) {
+	for (int o = 0; o < (int)organisms.size(); o++) {
+		if (positionOnBoard(organisms[o]->getPosition())) {
+			actions = organisms[o]->move();
+			for (int a = 0; a < (int)actions.size(); a++) {
 				makeMove(actions[a]);
 			}
 			actions.clear();
-			if (positionOnBoard(organisms[o].getPosition())) {
-				actions = organisms[o].action();
-				for (int a = 0; a < actions.size(); a++) {
+			if (positionOnBoard(organisms[o]->getPosition())) {
+				actions = organisms[o]->action();
+				for (int a = 0; a < (int)actions.size(); a++) {
 					makeMove(actions[a]);
 				}
 				actions.clear();
@@ -52,17 +56,22 @@ void World::makeTurn() {
 	}
 
 	for (int o = organisms.size() - 1; o >= 0; o--) {
-		if (!positionOnBoard(organisms[o].getPosition()))
+		if (!positionOnBoard(organisms[o]->getPosition()))
 			organisms.erase(organisms.begin() + o);
 	}
 	for (int o = newOrganisms.size() - 1; o >= 0; o--) {
-		if (!positionOnBoard(newOrganisms[o].getPosition()))
+		if (!positionOnBoard(newOrganisms[o]->getPosition()))
 			newOrganisms.erase(newOrganisms.begin() + o);
 	}
-	for (int o = 0; o < newOrganisms.size(); o++) {
+	for (int o = 0; o < (int)newOrganisms.size(); o++) {
 		organisms.push_back(newOrganisms[o]);
 	}
-	std::sort(organisms.begin(), organisms.end(), sortOrganisms);
+	std::sort(organisms.begin(), organisms.end(), [](const Organism* x, const Organism* y) {
+		if (x->getInitiative() != y->getInitiative()) {
+			return x->getInitiative() < y->getInitiative();
+		}
+		return x->getAge() < y->getAge();
+		});
 	//TODO: CHECK SORT ALGORITHM 
 	newOrganisms.clear();
 	turn++;
@@ -71,7 +80,7 @@ void World::makeTurn() {
 void World::makeMove(Action action) {
 	std::cout << action;
 	if (action.getAction() == ADD) {
-		newOrganisms.push_back(*action.getOrganism());
+		newOrganisms.push_back(action.getOrganism());
 	}
 	else if (action.getAction() == REMOVE) {
 		action.getOrganism()->setPosition(new Position(-1, -1));
@@ -85,39 +94,105 @@ void World::makeMove(Action action) {
 	}
 }
 
-bool World::addOrganism(Organism& newO) {
-	if (positionOnBoard(newO.getPosition())) {
+bool World::addOrganism(Organism* newO) {
+	if (positionOnBoard(newO->getPosition())) {
 		organisms.push_back(newO);
-		std::sort(organisms.begin(), organisms.end(), sortOrganisms);
+		std::sort(organisms.begin(), organisms.end(), [](const Organism* x, const Organism* y) {
+			// compare last names first
+			if (x->getInitiative() != y->getInitiative()) {
+				return x->getInitiative() < y->getInitiative();
+			}
+
+			// compare first names only if the last names are equal
+			return x->getAge() < y->getAge();
+			}); 
 		return true;
 	}
 	return false;
 }
 
-bool World::positionOnBoard(Position* p) {
+bool World::positionOnBoard(Position* p) const{
 	return (p->getX() >= 0 && p->getY() >= 0 &&
 		p->getX() < xLength && p->getY() < yLength) ? true : false;
 }
 
-bool World::sortOrganisms(Organism &o1, Organism &o2) {
-	if (o1.getInitiative() > o2.getInitiative()) return true;
-	else if (o1.getInitiative() == o2.getInitiative()) {
-		if (o1.getAge() > o2.getAge()) return true;
-		else return false;
+Organism* World::getOrganismFromPosition(Position searchedPosition) const{
+	Organism* pomOrganism = nullptr;
+	for (int o = 0; o < (int)organisms.size(); o++) {
+		if (searchedPosition.getX() == organisms[o]->getPosition()->getX()
+			&& searchedPosition.getY() == organisms[o]->getPosition()->getY()) {
+			pomOrganism = organisms[o];
+			break;
+		}
 	}
-	else return false;
+	if (pomOrganism == nullptr) {
+		for (int o = 0; o < (int)newOrganisms.size(); o++) {
+			if (searchedPosition.getX() == newOrganisms[o]->getPosition()->getX()
+				&& searchedPosition.getY() == newOrganisms[o]->getPosition()->getY()) {
+				pomOrganism = newOrganisms[o];
+				break;
+			}
+		}
+	}
+	return pomOrganism;
 }
 
+std::vector<Position> World::getNeighboringPositions(Position p) const{
+	std::vector<Position> result;
+	Position positionToCheck;
+	for (int x = -1; x < 2; x++) {
+		for (int y = -1; y < 2; y++) {
+			positionToCheck = Position(p.getX() + x, p.getY() + y);
+			if (positionOnBoard(&positionToCheck) && (y != 0 || x != 0)) {
+				result.push_back(positionToCheck);
+			}
+		}
+	}
+	return result;
+}
 
+std::vector<Position> World::filterFreePositions(std::vector<Position> positions) {
+	std::vector<Position> result;
+	for (int p = 0; p < (int)positions.size(); p++) {
+		if (getOrganismFromPosition(positions[p]) == nullptr) {
+			result.push_back(positions[p]);
+		}
+	}
+	return result;
+}
 
-/*
-	Organism* getOrganismFromPosition(Position);
+std::vector<Position> World::filterPositionsWithoutAnimals(std::vector<Position> positions) {
+	std::vector<Position> result;
+	for (int p = 0; p < (int)positions.size(); p++) {
+		if (getOrganismFromPosition(positions[p]) == nullptr) {
+			result.push_back(positions[p]);
+		}
+	}
+	return result;
+}
+std::vector<Position> World::filterPositionsWithOtherSpecies(std::vector<Position> positions) {
+	std::vector<Position> result;
+	for (int p = 0; p < (int)positions.size(); p++) {
+		if (getOrganismFromPosition(positions[p]) == nullptr) {
+			result.push_back(positions[p]);
+		}
+	}
+	return result;
+}
 
-	Position* getNeighboringPositions(Position);
-
-	std::vector<Position> filterFreePositions(std::vector<Position>);
-
-	std::vector<Position> filterPositionsWithoutAnimals(std::vector<Position>);
-	
-	std::vector<Position> filterPositionsWithOtherSpecies(std::vector<Position>);
-*/
+std::ostream& operator<<(std::ostream& os, const World& world) {
+	Organism* pomOrg;
+	os << "\nTurn: " << world.getTurn() << "\n";
+	for (int x = 0; x < world.getXLength(); x++) {
+		for (int y = 0; y < world.getYLength(); y++) {
+			pomOrg = world.getOrganismFromPosition(Position(x, y));
+			if (pomOrg) {
+				os << pomOrg->getSign();
+			}
+			else {
+				os << world.getEmptyPlace();
+			}	
+		}
+	}
+	return os;
+}

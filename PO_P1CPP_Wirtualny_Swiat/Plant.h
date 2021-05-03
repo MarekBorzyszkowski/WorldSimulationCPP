@@ -4,7 +4,7 @@
 
 class Plant : public Organism {
 public:
-	void action() override;
+	//std::vector<Action> action() override;
 	//void collision() override;
 };
 

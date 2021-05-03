@@ -3,8 +3,17 @@
 #include "Organism.h"
 
 class Animal : public Organism {
+protected:
+	Position* lastPosition;
 public:
-	void action() override;
+	Animal(Animal*, Position* , World* );
+
+	Position* getLastPosition() const;
+
+	void setLastPosition(Position*);
+
+	std::vector<Action> move() override;
+	std::vector<Action> action() override;
 	//void collision() override;
 };
 

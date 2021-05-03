@@ -2,6 +2,7 @@
 #define AC_H
 
 class Organism;
+class World;
 
 #include "Organism.h"
 #include "Position.h"

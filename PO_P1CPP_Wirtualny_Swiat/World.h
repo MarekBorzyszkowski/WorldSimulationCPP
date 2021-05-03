@@ -2,40 +2,48 @@
 #define W_H
 
 class Organism;
+class Action;
 
+#include <vector>
+#include "Position.h"
 #include "Organism.h"
+#include "Action.h"
+
 
 class World {
 private:
 	int xLength;
 	int yLength;
 	int turn;
-	std::vector<Organism> organisms;
-	std::vector<Organism> newOrganisms;
-	bool sortOrganisms(Organism&, Organism&);
+	char emptyPlace;
+	std::vector<Organism*> organisms;
+	std::vector<Organism*> newOrganisms;
+
+	friend std::ostream& operator<<(std::ostream&, const World&);
 public:
 	World(int, int);
 
 	int getXLength() const;
 	int getYLength() const;
 	int getTurn() const;
-	std::vector<Organism> getOrganisms() const;
-	std::vector<Organism> getNewOrganisms() const;
+	char getEmptyPlace() const;
+	std::vector<Organism*> getOrganisms() const;
+	std::vector<Organism*> getNewOrganisms() const;
 
 	void setTurn(int);
-	void setOrganisms(std::vector<Organism>);
-	void setNewOrganisms(std::vector<Organism>);
+	void setOrganisms(std::vector<Organism*>);
+	void setNewOrganisms(std::vector<Organism*>);
 
 	void makeTurn();
 
 	void makeMove(Action);
 
-	bool addOrganism(Organism&);
-	bool positionOnBoard(Position*);
+	bool addOrganism(Organism*);
+	bool positionOnBoard(Position*) const;
 
-	Organism* getOrganismFromPosition(Position);
+	Organism* getOrganismFromPosition(Position) const;
 
-	Position* getNeighboringPositions(Position);
+	std::vector<Position> getNeighboringPositions(Position) const;
 
 	std::vector<Position> filterFreePositions(std::vector<Position>);
 
