@@ -1,8 +1,8 @@
 #include "Action.h"
-#define ADD 0
-#define REMOVE 1
-#define MOVE 2
-#define INCREASEPOWER 3
+//#define ADD 0
+//#define REMOVE 1
+//#define MOVE 2
+//#define INCREASEPOWER 3
 
 std::ostream& operator<<(std::ostream& os, const Action& action) {
 	switch (action.getAction()) {

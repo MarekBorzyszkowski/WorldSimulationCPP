@@ -5,7 +5,9 @@ World::World(int x, int y) :
 	xLength(x),
 	yLength(y),
 	turn(0),
-	emptyPlace('.'){}
+	emptyPlace('.'){
+	srand(time(NULL));
+}
 
 int World::getXLength() const {
 	return xLength;

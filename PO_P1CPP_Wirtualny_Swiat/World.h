@@ -8,7 +8,8 @@ class Action;
 #include "Position.h"
 #include "Organism.h"
 #include "Action.h"
-
+#include <stdlib.h>
+#include <time.h>
 
 class World {
 private:

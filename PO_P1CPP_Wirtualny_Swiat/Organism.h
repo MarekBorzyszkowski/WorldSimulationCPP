@@ -10,6 +10,7 @@ class World;
 #include <string>
 #include <vector>
 
+
 class Organism {
 protected:
 	int strength;
@@ -43,9 +44,10 @@ public:
 
 	virtual std::vector<Action> move() = 0;
 	virtual std::vector<Action> action() = 0;
+	virtual std::vector<Action> reproduce() = 0;
 	virtual void initialParameters() = 0;
-	virtual Organism clone() = 0;
-	Action collision(Organism*);
+	virtual Organism* clone() = 0;
+	virtual std::vector<Action> collision(Organism*);
 
 	virtual ~Organism();
 };

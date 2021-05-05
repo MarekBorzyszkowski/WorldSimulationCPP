@@ -74,8 +74,15 @@ void Organism::setWorld(World* w) {
 	world = w;
 }
 
-Action Organism::collision(Organism* atackingOrganism) {
-	return Action(0, 0, new Position(0, 0), atackingOrganism);
+std::vector<Action> Organism::collision(Organism* atackingOrganism) {
+	std::vector<Action> result;
+	if (this->getStrength()>atackingOrganism->getStrength()) {
+		result.push_back(Action(REMOVE, 0, getPosition(), atackingOrganism));
+	}
+	else {
+		result.push_back(Action(REMOVE, 0, getPosition(), this));
+	}
+	return result;
 }
 
 std::ostream& operator<<(std::ostream& os, const Organism& organism) {

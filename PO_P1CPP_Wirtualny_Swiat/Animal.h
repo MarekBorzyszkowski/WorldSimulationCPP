@@ -12,9 +12,11 @@ public:
 
 	void setLastPosition(Position*);
 
-	std::vector<Action> move() override;
+	virtual std::vector<Action> move() override;
 	std::vector<Action> action() override;
-	//void collision() override;
+	std::vector<Action> reproduce() override;
+	virtual std::vector<Position> getNeighboringPositions();
+	virtual std::vector<Position> getNeighboringBirthPositions();
 };
 
 #endif

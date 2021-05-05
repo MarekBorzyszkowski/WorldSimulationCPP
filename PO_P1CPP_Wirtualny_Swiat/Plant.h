@@ -4,8 +4,12 @@
 
 class Plant : public Organism {
 public:
-	//std::vector<Action> action() override;
-	//void collision() override;
+	Plant(Plant*, Position*, World*);
+
+	std::vector<Action> move() override;
+	std::vector<Action> action() override;
+	std::vector<Action> reproduce() override;
+	std::vector<Position> getFreeNeighboringPositions();
 };
 
 #endif
