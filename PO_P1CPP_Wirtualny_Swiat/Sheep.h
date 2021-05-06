@@ -1,6 +1,7 @@
-#include "Animal.h"
 #ifndef SP_H
 #define SP_H
+
+#include "Animal.h"
 
 class Sheep : public Animal {
 public:

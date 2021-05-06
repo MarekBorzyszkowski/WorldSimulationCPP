@@ -17,7 +17,7 @@ protected:
 	int initiative;
 	int age;
 	char sign;
-	std::string* name;
+	std::string name;
 	Position* position;
 	World* world;
 
@@ -30,7 +30,7 @@ public:
 	int getInitiative() const;
 	int getAge() const;
 	char getSign() const;
-	std::string* getName() const;
+	std::string getName() const;
 	Position* getPosition() const;
 	World* getWorld() const;
 
@@ -38,7 +38,7 @@ public:
 	void setInitiative(int);
 	void setAge(int);
 	void setSign(char);	
-	void setName(std::string*);
+	void setName(std::string);
 	void setPosition(Position*);
 	void setWorld(World*);
 

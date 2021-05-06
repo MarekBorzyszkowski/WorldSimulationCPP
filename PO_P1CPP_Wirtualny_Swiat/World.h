@@ -51,8 +51,6 @@ public:
 	std::vector<Position> filterPositionsWithoutAnimals(std::vector<Position>);
 	
 	std::vector<Position> filterPositionsWithOtherSpecies(std::vector<Position>);
-
-
 };
 
 #endif

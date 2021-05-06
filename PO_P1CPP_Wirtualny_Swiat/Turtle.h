@@ -1,6 +1,8 @@
-#include "Animal.h"
 #ifndef TT_H
 #define TT_H
+
+#include "Animal.h"
+
 class Turtle : public Animal{
 public:
 	Turtle(Turtle*, Position*, World*);

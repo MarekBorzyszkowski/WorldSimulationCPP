@@ -1,6 +1,7 @@
-#include "Animal.h"
 #ifndef WF_H
 #define WF_H
+
+#include "Animal.h"
 
 class Wolf : public Animal {
 public:

@@ -1,7 +1,9 @@
 #include "Plant.h"
 
 Plant::Plant(Plant* plant, Position* position, World* world)
-	:Organism(plant, position, world) {}
+	:Organism(plant, position, world) {
+	growthRate = 1;
+}
 
 std::vector<Action> Plant::move() {
 	return std::vector<Action>();
@@ -13,28 +15,24 @@ std::vector<Action> Plant::action() {
 
 std::vector<Action> Plant::reproduce() {
 	std::vector<Action> result;
-	std::vector<Position> pomPositions = getFreeNeighboringPositions();
+	std::vector<Position> pomPositions = getNeighboringPositions();
 	Organism* newPlant;
 	Position* newPosition;
 	int placeIndex; 
-	if (pomPositions.size() > 0) {
+	for (int i = 0; i < growthRate && pomPositions.size()>0; i++) {
 		placeIndex = rand() % pomPositions.size();
 		newPosition = new Position(pomPositions[placeIndex].getX(), pomPositions[placeIndex].getY());
-		newPlant = clone();
-		newPlant->initialParameters();
-		newPlant->setPosition(newPosition);
-		result.push_back(Action(ADD, 0, newPlant->getPosition(), newPlant));
+		if (!getWorld()->getOrganismFromPosition(*newPosition)) {
+			newPlant = clone();
+			newPlant->initialParameters();
+			newPlant->setPosition(newPosition);
+			result.push_back(Action(ADD, 0, newPlant->getPosition(), newPlant));
+			pomPositions.erase(std::begin(pomPositions) + placeIndex);
+		}
 	}
 	return result;
 }
 
-std::vector<Position> Plant::getFreeNeighboringPositions() {
-	return getWorld()->filterFreePositions(getWorld()->getNeighboringPositions(*getPosition()));
+std::vector<Position> Plant::getNeighboringPositions() {
+	return getWorld()->getNeighboringPositions(*getPosition());
 }
-
-/*Plant(Organism*, Position*, World*);
-
-	std::vector<Action> move() override;
-	std::vector<Action> action() override;
-	std::vector<Action> reproduce() override;
-	std::vector<Position> getFreeNeighboringPositions();*/

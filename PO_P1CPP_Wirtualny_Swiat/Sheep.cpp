@@ -2,6 +2,7 @@
 
 Sheep::Sheep(Sheep* sheep, Position* position, World* world)
 	:Animal(sheep, position, world) {
+	initialParameters();
 }
 
 Organism* Sheep::clone() {
@@ -13,5 +14,5 @@ void Sheep::initialParameters() {
 	setInitiative(4);
 	setAge(0);
 	setSign('S');
-	setName(new std::string("Sheep"));
+	setName("Sheep");
 }

@@ -5,6 +5,7 @@
 class Animal : public Organism {
 protected:
 	Position* lastPosition;
+	bool canReproduce;
 public:
 	Animal(Animal*, Position* , World* );
 

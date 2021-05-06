@@ -1,6 +1,7 @@
-#include "Animal.h"
 #ifndef FX_H
 #define FX_H
+
+#include "Animal.h"
 
 class Fox : public Animal {
 public:
@@ -8,6 +9,6 @@ public:
 	Organism* clone() override;
 	void initialParameters() override;
 	std::vector<Position> getNeighboringPositions() override;
-};
+	};
 
 #endif

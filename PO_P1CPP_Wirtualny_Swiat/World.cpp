@@ -165,9 +165,13 @@ std::vector<Position> World::filterFreePositions(std::vector<Position> positions
 
 std::vector<Position> World::filterPositionsWithoutAnimals(std::vector<Position> positions) {
 	std::vector<Position> result;
+	Organism* pomOrganism;
 	for (int p = 0; p < (int)positions.size(); p++) {
-		if (getOrganismFromPosition(positions[p]) == nullptr) {
-			result.push_back(positions[p]);
+		pomOrganism = getOrganismFromPosition(positions[p]);
+		if (pomOrganism != nullptr) {
+			if (pomOrganism->getInitiative() > 0) {
+				result.push_back(positions[p]);
+			}
 		}
 	}
 	return result;

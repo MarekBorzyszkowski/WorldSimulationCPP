@@ -7,7 +7,7 @@ Organism::Organism(Organism* organism, Position* position, World* world) {
 	initiative = NULL;
 	age = NULL;
 	sign = NULL;
-	name = nullptr;
+	name = "";
 	position = nullptr;
 	world = nullptr; 
 	if (organism != nullptr) {
@@ -26,7 +26,6 @@ Organism::Organism(Organism* organism, Position* position, World* world) {
 		if (world != nullptr) {
 			this->world = world;
 		}
-		//initialParameters();
 	}
 }
 
@@ -42,7 +41,7 @@ int Organism::getAge() const {
 char Organism::getSign() const {
 	return sign;
 }
-std::string* Organism::getName() const {
+std::string Organism::getName() const {
 	return name;
 }
 Position* Organism::getPosition() const {
@@ -64,7 +63,7 @@ void Organism::setAge(int a) {
 void Organism::setSign(char s) {
 	sign = s;
 }
-void Organism::setName(std::string* n) {
+void Organism::setName(std::string n) {
 	name = n;
 }
 void Organism::setPosition(Position* p) {

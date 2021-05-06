@@ -1,7 +1,8 @@
 #include "Wolf.h"
 
-Wolf::Wolf(Wolf* sheep, Position* position, World* world)
-	:Animal(sheep, position, world) {
+Wolf::Wolf(Wolf* wolf, Position* position, World* world)
+	:Animal(wolf, position, world) {
+	initialParameters();
 }
 
 Organism* Wolf::clone() {
@@ -13,5 +14,5 @@ void Wolf::initialParameters() {
 	setInitiative(5);
 	setAge(0);
 	setSign('W');
-	setName(new std::string("Wolf"));
+	setName("Wolf");
 }

@@ -1,7 +1,8 @@
 #include "Turtle.h"
 
-Turtle::Turtle(Turtle* sheep, Position* position, World* world)
-	:Animal(sheep, position, world) {
+Turtle::Turtle(Turtle* turtle, Position* position, World* world)
+	:Animal(turtle, position, world) {
+	initialParameters();
 }
 
 Organism* Turtle::clone() {
@@ -13,7 +14,7 @@ void Turtle::initialParameters() {
 	setInitiative(1);
 	setAge(0);
 	setSign('T');
-	setName(new std::string("Turtle"));
+	setName("Turtle");
 }
 
 std::vector<Action> Turtle::move() {
@@ -26,9 +27,12 @@ std::vector<Action> Turtle::move() {
 
 std::vector<Action> Turtle::collision(Organism* atackingOrganism) {
 	//TODO: move lastPosition from Animal to Organism
+	
 	std::vector<Action> result;
 	if (atackingOrganism->getStrength() < 5) {
-		result.push_back(Action(MOVE, 0, getPosition(), atackingOrganism));
+		Position* lastOrgPosition = new Position(atackingOrganism->getPosition()->getX(),
+			atackingOrganism->getPosition()->getY());
+		result.push_back(Action(MOVE, 0, lastOrgPosition, atackingOrganism));
 
 	}
 	else if (this->getStrength() > atackingOrganism->getStrength()) {

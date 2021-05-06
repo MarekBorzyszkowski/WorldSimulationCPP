@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Animal">
       <UniqueIdentifier>{328ea2b2-bb9a-43d3-a951-27a23abde5b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Plant">
+      <UniqueIdentifier>{ae8bd2fe-a485-4fad-a622-779451ce9598}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
@@ -72,6 +75,21 @@
     <ClInclude Include="Human.h">
       <Filter>Header Files\Organism</Filter>
     </ClInclude>
+    <ClInclude Include="Grass.h">
+      <Filter>Header Files\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Sonchus.h">
+      <Filter>Header Files\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Guarana.h">
+      <Filter>Header Files\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Wberry.h">
+      <Filter>Header Files\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="Borscht.h">
+      <Filter>Header Files\Plants</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Position.cpp">
@@ -106,6 +124,24 @@
     </ClCompile>
     <ClCompile Include="Turtle.cpp">
       <Filter>Source Files\Animal</Filter>
+    </ClCompile>
+    <ClCompile Include="Antelope.cpp">
+      <Filter>Source Files\Animal</Filter>
+    </ClCompile>
+    <ClCompile Include="Grass.cpp">
+      <Filter>Source Files\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="Sonchus.cpp">
+      <Filter>Source Files\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="Borscht.cpp">
+      <Filter>Source Files\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="Guarana.cpp">
+      <Filter>Source Files\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="Wberry.cpp">
+      <Filter>Source Files\Plant</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
