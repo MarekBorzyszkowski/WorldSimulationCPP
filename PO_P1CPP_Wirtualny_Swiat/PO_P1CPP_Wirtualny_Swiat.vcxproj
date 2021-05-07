@@ -165,6 +165,7 @@
     <ClCompile Include="Fox.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Guarana.cpp" />
+    <ClCompile Include="Human.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Organism.cpp" />
     <ClCompile Include="Plant.cpp" />

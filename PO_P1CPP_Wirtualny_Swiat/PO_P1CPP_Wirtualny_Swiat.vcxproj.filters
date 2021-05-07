@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Plants">
-      <UniqueIdentifier>{7e53e2bd-0049-498c-b16b-71f21c9e94e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Animals">
       <UniqueIdentifier>{647bdd53-61ba-4027-af31-e12e025f5540}</UniqueIdentifier>
     </Filter>
@@ -25,9 +22,6 @@
     <Filter Include="Source Files\Base">
       <UniqueIdentifier>{7cbfb8af-5c26-4eab-a5dc-f3c12b1f37e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Organism">
-      <UniqueIdentifier>{2ead9a5e-5db0-45aa-aca2-ceeb7d0b71fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Organism">
       <UniqueIdentifier>{fb922643-26bd-4a27-bf27-84b2c3843514}</UniqueIdentifier>
     </Filter>
@@ -36,6 +30,12 @@
     </Filter>
     <Filter Include="Source Files\Plant">
       <UniqueIdentifier>{ae8bd2fe-a485-4fad-a622-779451ce9598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Plants">
+      <UniqueIdentifier>{7e53e2bd-0049-498c-b16b-71f21c9e94e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Organism">
+      <UniqueIdentifier>{2ead9a5e-5db0-45aa-aca2-ceeb7d0b71fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="Wberry.cpp">
       <Filter>Source Files\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="Human.cpp">
+      <Filter>Source Files\Organism</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
