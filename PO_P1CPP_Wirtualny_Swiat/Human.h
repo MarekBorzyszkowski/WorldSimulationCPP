@@ -7,12 +7,14 @@
 #define RIGHT 3
 #define SPECIAL 4
 
-#include"Organism.h"
+#include"Animal.h"
 
-class Human : public Organism {
+class Human : public Animal {
 private:
+	int baseStrength;
+	int strengthIncreased;
 	int whatToDo;
-	int timeToUseSpecial;
+	int turnsToUseSpecial;
 	char specialKeyActivation;
 	bool canUseSpecial;
 public:
@@ -23,6 +25,7 @@ public:
 	void initialParameters() override;
 	Organism* clone() override;
 
+	void inspectStrength();
 	void getAction();
 
 };

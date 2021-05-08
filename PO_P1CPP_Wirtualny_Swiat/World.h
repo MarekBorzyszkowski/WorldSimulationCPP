@@ -11,11 +11,18 @@ class Action;
 #include <stdlib.h>
 #include <time.h>
 
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3
+#define SPECIAL 4
+
 class World {
 private:
 	int xLength;
 	int yLength;
 	int turn;
+	int whatToDo;
 	char emptyPlace;
 	std::vector<Organism*> organisms;
 	std::vector<Organism*> newOrganisms;
@@ -39,6 +46,8 @@ public:
 
 	void makeMove(Action);
 
+	void getAction();
+
 	bool addOrganism(Organism*);
 	bool positionOnBoard(Position*) const;
 
@@ -51,6 +60,7 @@ public:
 	std::vector<Position> filterPositionsWithoutAnimals(std::vector<Position>);
 	
 	std::vector<Position> filterPositionsWithOtherSpecies(std::vector<Position>);
+
 };
 
 #endif

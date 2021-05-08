@@ -1,5 +1,11 @@
 #include "World.h"
 #include <algorithm>
+#include <conio.h>
+
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
 
 World::World(int x, int y) :
 	xLength(x),
@@ -39,6 +45,7 @@ void World::setNewOrganisms(std::vector<Organism*> newOrganisms) {
 }
 
 void World::makeTurn() {
+	//(c = _getch())
 	std::vector<Action> actions;
 	for (int o = 0; o < (int)organisms.size(); o++) {
 		if (positionOnBoard(organisms[o]->getPosition())) {
@@ -93,6 +100,54 @@ void World::makeMove(Action action) {
 	else if (action.getAction() == INCREASEPOWER) {
 		int currStrength = action.getOrganism()->getStrength();
 		action.getOrganism()->setStrength(currStrength + action.getValue());
+	}
+}
+
+void World::getAction() {
+	int c;
+	while (1) {
+		c = 0;
+		switch ((c = _getch())) {
+		case 224: {
+			switch ((c = _getch())) {
+			case KEY_UP: {
+				whatToDo = UP;
+				return;
+			}
+			case KEY_DOWN: {
+				whatToDo = DOWN;
+				return;
+			}
+			case KEY_LEFT: {
+				whatToDo = LEFT;
+				return;
+			}
+			case KEY_RIGHT: {
+				whatToDo = RIGHT;
+				return;
+			}
+			default: {
+				break;
+			}
+			}
+			break;
+		}
+		case 's': {
+			if (canUseSpecial) {
+				whatToDo = SPECIAL;
+				return;
+			}
+			std::cout << "You must wait " << turnsToUseSpecial << " turns to use special ability.\n";
+			break;
+		}
+		case 'v': {
+			//save;
+			return;
+		}
+		default:
+			break;
+		}
+
 	}
 }
 
