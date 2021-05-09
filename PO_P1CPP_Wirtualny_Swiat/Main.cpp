@@ -5,23 +5,28 @@
 using namespace std;
 
 int main() {
-	cout << "Do you want to load the world? (y/n) ";
-	World world(0,0);
-	int c;
-	int x, y;
 	Game game;
-	while (c = _getch()) {
-		if (c == 'y') {
-			game.load(world);
-			break;
-		}
-		else if (c == 'n') {
-			cout << "\nPass the world size(for best experience pick at least 6x6) ";
+	cout << "Do you want to load the world? (y/n): ";
+	World world(0,0);
+	char c;
+	int x = 0, y = 0;
+	cin >> c;
+	if (c == 'y') {
+		game.load(world);
+	}
+	else if (c == 'n') {
+		cout << "Pass the world size(for best experience pick at least 6x6): ";
+		while (true) {
 			cin >> x >> y;
-			world = World(x, y);
-			game.setUpWorld(&world);
-			break;
+			if (x < 1 || y < 1) {
+				cout << "Value of x or y is too small(<1), pass values that are >0: ";
+			}
+			else {
+				break;
+			}
 		}
+		world = World(x, y);
+		game.setUpWorld(&world);
 	}
 	world.draw();
 	while (true) {

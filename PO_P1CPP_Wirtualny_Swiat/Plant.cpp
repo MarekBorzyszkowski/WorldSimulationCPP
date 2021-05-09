@@ -30,6 +30,8 @@ std::vector<Action> Plant::reproduce() {
 			pomPositions.erase(std::begin(pomPositions) + placeIndex);
 		}
 	}
+	newPlant = nullptr;
+	newPosition = nullptr;
 	return result;
 }
 

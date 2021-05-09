@@ -30,6 +30,7 @@ std::vector<Action> Animal::move() {
 			result.push_back(Action(MOVE, 0, newPosition, this));
 		}
 	}
+	newPosition = nullptr;
 	return result;
 }
 std::vector<Action> Animal::action() {
@@ -52,6 +53,7 @@ std::vector<Action> Animal::reproduce() {
 		newAnimal->setPosition(new Position(birthPlace[placeIndex].getX(), birthPlace[placeIndex].getY()));
 		result.push_back(Action(ADD, 0, newAnimal->getPosition(), newAnimal));
 	}
+	newAnimal = nullptr;
 	return result;
 }
 

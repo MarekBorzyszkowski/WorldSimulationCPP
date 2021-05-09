@@ -11,7 +11,7 @@ Organism* Borscht::clone() {
 
 std::vector<Action> Borscht::action() {
 	std::vector<Action> result;
-	result = reproduce();
+	std::vector<Action> pomVector;
 	std::vector<Position> positionsToCheck = getWorld()
 		->filterPositionsWithoutAnimals(getNeighboringPositions());
 	Organism* pomOrganism;
@@ -19,6 +19,9 @@ std::vector<Action> Borscht::action() {
 		pomOrganism = getWorld()->getOrganismFromPosition(positionsToCheck[i]);
 		result.push_back(Action(REMOVE, 0, pomOrganism->getPosition(), pomOrganism));
 	}
+	pomVector = reproduce();
+	result.insert(std::end(result), std::begin(pomVector), std::end(pomVector));
+	pomOrganism = nullptr;
 	return result;
 }
 

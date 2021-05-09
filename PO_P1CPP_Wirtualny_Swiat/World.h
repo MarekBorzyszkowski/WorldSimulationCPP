@@ -38,12 +38,8 @@ public:
 	int getTurn() const;
 	int getWhatToDo() const;
 	char getEmptyPlace() const;
-	std::vector<Organism*> getOrganisms() const;
-	std::vector<Organism*> getNewOrganisms() const;
 
 	void setTurn(int);
-	void setOrganisms(std::vector<Organism*>);
-	void setNewOrganisms(std::vector<Organism*>);
 
 	bool makeTurn();
 
@@ -58,17 +54,17 @@ public:
 
 	std::vector<Position> getNeighboringPositions(Position) const;
 
-	std::vector<Position> filterFreePositions(std::vector<Position>);
+	std::vector<Position> filterFreePositions(std::vector<Position>) const;
 
-	std::vector<Position> filterPositionsWithoutAnimals(std::vector<Position>);
+	std::vector<Position> filterPositionsWithoutAnimals(std::vector<Position>) const;
 	
-	std::vector<Position> filterPositionsWithOtherSpecies(std::vector<Position>);
+	std::vector<Position> filterPositionsWithOtherSpecies(std::vector<Position>) const;
 
-	void save();
+	void save() const;
 
-	void draw();
+	void draw() const;
 
-	void clear();
+	void clear() const;
 };
 
 #endif

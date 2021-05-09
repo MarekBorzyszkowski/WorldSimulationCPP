@@ -4,9 +4,10 @@
 #include "Plant.h"
 
 class Grass : public Plant {
+private:
+	Organism* clone() override;
 public:
 	Grass(Grass*, Position*, World*);
-	Organism* clone() override;
 	void initialParameters() override;
 };
 

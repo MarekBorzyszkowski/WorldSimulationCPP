@@ -32,21 +32,9 @@ int World::getWhatToDo() const {
 char World::getEmptyPlace() const {
 	return emptyPlace;
 }
-std::vector<Organism*> World::getOrganisms() const {
-	return organisms;
-}
-std::vector<Organism*> World::getNewOrganisms() const {
-	return newOrganisms;
-}
 
 void World::setTurn(int turn) {
 	this->turn = turn;
-}
-void World::setOrganisms(std::vector<Organism*> organisms) {
-	this->organisms = organisms;
-}
-void World::setNewOrganisms(std::vector<Organism*> newOrganisms) {
-	this->newOrganisms = newOrganisms;
 }
 
 bool World::makeTurn() {
@@ -56,6 +44,7 @@ bool World::makeTurn() {
 	}
 	std::vector<Action> actions;
 	for (int o = 0; o < (int)organisms.size(); o++) {
+		organisms[o]->setAge(organisms[o]->getAge() + 1);
 		if (positionOnBoard(organisms[o]->getPosition())) {
 			actions = organisms[o]->move();
 			for (int a = 0; a < (int)actions.size(); a++) {
@@ -89,7 +78,6 @@ bool World::makeTurn() {
 		}
 		return x->getAge() > y->getAge();
 		});
-	//TODO: CHECK SORT ALGORITHM 
 	newOrganisms.clear();
 	turn++;
 	std::cout << "Press eny key to do end turn.";
@@ -218,7 +206,7 @@ std::vector<Position> World::getNeighboringPositions(Position p) const{
 	return result;
 }
 
-std::vector<Position> World::filterFreePositions(std::vector<Position> positions) {
+std::vector<Position> World::filterFreePositions(std::vector<Position> positions) const{
 	std::vector<Position> result;
 	for (int p = 0; p < (int)positions.size(); p++) {
 		if (getOrganismFromPosition(positions[p]) == nullptr) {
@@ -228,7 +216,7 @@ std::vector<Position> World::filterFreePositions(std::vector<Position> positions
 	return result;
 }
 
-std::vector<Position> World::filterPositionsWithoutAnimals(std::vector<Position> positions) {
+std::vector<Position> World::filterPositionsWithoutAnimals(std::vector<Position> positions) const {
 	std::vector<Position> result;
 	Organism* pomOrganism;
 	for (int p = 0; p < (int)positions.size(); p++) {
@@ -239,9 +227,10 @@ std::vector<Position> World::filterPositionsWithoutAnimals(std::vector<Position>
 			}
 		}
 	}
+	pomOrganism = nullptr;
 	return result;
 }
-std::vector<Position> World::filterPositionsWithOtherSpecies(std::vector<Position> positions) {
+std::vector<Position> World::filterPositionsWithOtherSpecies(std::vector<Position> positions) const {
 	std::vector<Position> result;
 	for (int p = 0; p < (int)positions.size(); p++) {
 		if (getOrganismFromPosition(positions[p]) == nullptr) {
@@ -251,7 +240,7 @@ std::vector<Position> World::filterPositionsWithOtherSpecies(std::vector<Positio
 	return result;
 }
 
-void World::save() {
+void World::save() const {
 	std::ofstream out;
 	out.open("save.txt");
 	out << xLength << " " << yLength << " " 
@@ -263,13 +252,14 @@ void World::save() {
 			<< org->getAge() << " " << org->getPosition()->getX() << " "
 			<< org->getPosition()->getY() << '\n';
 	}
+	org = nullptr;
 }
 
-void World::clear() {
+void World::clear() const {
 	std::cout << "\x1B[2J\x1B[H";
 }
 
-void World::draw() {
+void World::draw() const {
 	clear();
 	std::cout << "Use arrow keys to move, s - special move, v - save, e - endgame"
 		<< *this;
@@ -278,7 +268,7 @@ void World::draw() {
 std::ostream& operator<<(std::ostream& os, const World& world) {
 	Organism* pomOrg;
 	os  << "\nH - human\n"
-		<<"A - Antylope, F - fox, S - sheep, T - turtle, W - wofl\n"
+		<<"A - antylope, F - fox, S - sheep, T - turtle, W - wofl\n"
 		<<"B - borscht, G - grass, + - guarana, U - sonchus, R - Wberry\n"
 		<< "Turn: " << world.getTurn() << "\n\n";
 	for (int x = 0; x < world.getXLength(); x++) {
@@ -294,5 +284,6 @@ std::ostream& operator<<(std::ostream& os, const World& world) {
 		os << '\n';
 	}
 	os << '\n';
+	pomOrg = nullptr;
 	return os;
 }

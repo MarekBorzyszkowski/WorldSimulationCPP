@@ -4,7 +4,7 @@ void Game::load(World& world) {
 	std::string fileName;
 	std::ifstream fileToRead;
 	while (true) {
-		std::cout << "\nEnter file name: ";
+		std::cout << "Enter file name: ";
 		std::cin >> fileName;
 		fileToRead.open(fileName);
 		if (fileToRead.good()) {

@@ -31,13 +31,8 @@ std::vector<Action> Turtle::collision(Organism* atackingOrganism) {
 		Position* lastOrgPosition = new Position(atackingOrganism->getPosition()->getX(),
 			atackingOrganism->getPosition()->getY());
 		result.push_back(Action(MOVE, 0, lastOrgPosition, atackingOrganism));
-
+		lastOrgPosition = nullptr;
 	}
-	else if (this->getStrength() > atackingOrganism->getStrength()) {
-		result.push_back(Action(REMOVE, 0, getPosition(), atackingOrganism));
-	}
-	else {
-		result.push_back(Action(REMOVE, 0, getPosition(), this));
-	}
+	else result = Animal::collision(atackingOrganism);
 	return result;
 }

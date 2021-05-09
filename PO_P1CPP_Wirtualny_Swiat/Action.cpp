@@ -51,3 +51,8 @@ Position* Action::getPositon() const {
 Organism* Action::getOrganism() const {
 	return organism;
 }
+
+Action::~Action() {
+	position = nullptr;
+	organism = nullptr;
+}

@@ -94,4 +94,6 @@ std::ostream& operator<<(std::ostream& os, const Organism& organism) {
 }
 
 Organism::~Organism() {
+	delete position;
+	world = nullptr;
 }

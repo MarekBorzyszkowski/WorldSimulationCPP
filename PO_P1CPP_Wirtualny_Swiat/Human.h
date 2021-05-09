@@ -17,14 +17,14 @@ private:
 	int turnsToUseSpecial;
 	char specialKeyActivation;
 	bool canUseSpecial;
+	Organism* clone() override;
 public:
 	Human(Human*, Position*, World*);
 	std::vector<Action> move() override;
 	std::vector<Action> action() override;
 	std::vector<Action> reproduce() override;
 	void initialParameters() override;
-	Organism* clone() override;
-
+	
 	void inspectStrength();
 
 };

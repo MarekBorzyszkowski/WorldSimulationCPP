@@ -49,7 +49,9 @@ std::vector<Action> Human::move() {
                 pomVector = metOrganism->collision(this);
                 result.insert(std::end(result), std::begin(pomVector), std::end(pomVector));
             }
+            metOrganism = nullptr;
         }
+        newPosition = nullptr;
         return result;
     }
     return std::vector<Action>();
@@ -67,7 +69,7 @@ std::vector<Action> Human::action() {
     }
     if ( whatToDo == SPECIAL && !canUseSpecial) {
         std::cout << "Human cannot use its special ability, must wait: " 
-            << turnsToUseSpecial << '\n';
+            << turnsToUseSpecial << " turns\n";
     }
     return std::vector<Action>();
 }
@@ -91,7 +93,7 @@ void Human::initialParameters() {
 }
 
 Organism* Human::clone() {
-	return new Human(this, nullptr, world);
+	return new Human(this, nullptr, nullptr);
 }
 
 void Human::inspectStrength() {

@@ -4,9 +4,10 @@
 #include "Plant.h"
 
 class Guarana : public Plant {
+private:
+	Organism* clone() override;
 public:
 	Guarana(Guarana*, Position*, World*);
-	Organism* clone() override;
 	void initialParameters() override;
 	std::vector<Action> collision(Organism*) override;
 };

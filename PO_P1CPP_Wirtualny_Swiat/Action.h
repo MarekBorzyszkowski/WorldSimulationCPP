@@ -29,7 +29,7 @@ public:
 	Position* getPositon() const;
 	Organism* getOrganism() const;
 
-
+	~Action();
 };
 
 #endif

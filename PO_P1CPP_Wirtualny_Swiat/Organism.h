@@ -12,7 +12,7 @@ class World;
 
 
 class Organism {
-protected:
+private:
 	int strength;
 	int initiative;
 	int age;
@@ -20,8 +20,12 @@ protected:
 	std::string name;
 	Position* position;
 	World* world;
+protected:
 
 	friend std::ostream& operator<<(std::ostream&, const Organism&);
+	
+	virtual std::vector<Action> reproduce() = 0;
+	virtual Organism* clone() = 0;
 
 public:
 	Organism(Organism*, Position*, World*);
@@ -44,12 +48,10 @@ public:
 
 	virtual std::vector<Action> move() = 0;
 	virtual std::vector<Action> action() = 0;
-	virtual std::vector<Action> reproduce() = 0;
 	virtual void initialParameters() = 0;
-	virtual Organism* clone() = 0;
 	virtual std::vector<Action> collision(Organism*);
 
-	virtual ~Organism();
+	~Organism();
 };
 
 #endif

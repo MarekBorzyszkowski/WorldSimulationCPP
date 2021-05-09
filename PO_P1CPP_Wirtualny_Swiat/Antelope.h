@@ -4,12 +4,13 @@
 #include "Animal.h"
 
 class Antelope : public Animal {
+private:
+	Organism* clone() override;
+	std::vector<Position> getNeighboringPositions() override;
 public:
 	Antelope(Antelope*, Position*, World*);
-	Organism* clone() override;
 	void initialParameters() override;
 	std::vector<Action> collision(Organism*) override; 
-	std::vector<Position> getNeighboringPositions() override;
 };
 
 #endif

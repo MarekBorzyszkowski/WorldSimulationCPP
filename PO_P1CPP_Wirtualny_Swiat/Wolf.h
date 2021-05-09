@@ -4,9 +4,10 @@
 #include "Animal.h"
 
 class Wolf : public Animal {
+private:
+	Organism* clone() override;
 public:
 	Wolf(Wolf*, Position*, World*);
-	Organism* clone() override;
 	void initialParameters() override;
 
 };
