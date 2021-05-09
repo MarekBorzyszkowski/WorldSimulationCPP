@@ -90,6 +90,9 @@
     <ClInclude Include="Borscht.h">
       <Filter>Header Files\Plants</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Position.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Human.cpp">
       <Filter>Source Files\Organism</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

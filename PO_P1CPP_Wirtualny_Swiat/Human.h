@@ -26,7 +26,6 @@ public:
 	Organism* clone() override;
 
 	void inspectStrength();
-	void getAction();
 
 };
 

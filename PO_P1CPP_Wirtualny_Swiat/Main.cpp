@@ -1,17 +1,37 @@
 #include <iostream>
-#include "World.h"
-
 #include <conio.h>
-
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
+#include "Game.h"
 
 using namespace std;
 
 int main() {
-	cout << "Hello World!\n";
-	World world(2,2);
+	cout << "Do you want to load the world? (y/n) ";
+	World world(0,0);
+	int c;
+	int x, y;
+	Game game;
+	while (c = _getch()) {
+		if (c == 'y') {
+			game.load(world);
+			break;
+		}
+		else if (c == 'n') {
+			cout << "\nPass the world size(for best experience pick at least 6x6) ";
+			cin >> x >> y;
+			world = World(x, y);
+			game.setUpWorld(&world);
+			break;
+		}
+	}
+	world.draw();
+	while (true) {
+		if (!world.makeTurn()) {
+			break;
+		}
+		world.draw();
+	}
+	world.clear();
+	cout << "GAME HAS ENDED\nTHANKS FOR PLAYING!";
+	return 0;
 	
 }

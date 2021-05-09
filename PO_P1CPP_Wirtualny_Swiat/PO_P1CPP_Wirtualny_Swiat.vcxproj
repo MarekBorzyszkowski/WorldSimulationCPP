@@ -144,6 +144,7 @@
     <ClInclude Include="Antelope.h" />
     <ClInclude Include="Borscht.h" />
     <ClInclude Include="Fox.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Guarana.h" />
     <ClInclude Include="Human.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Guarana.cpp" />
     <ClCompile Include="Human.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Organism.cpp" />
     <ClCompile Include="Plant.cpp" />

@@ -24,7 +24,7 @@ std::vector<Position> Fox::getNeighboringPositions() {
 	for (int p = 0; p < (int)positionToSearch.size(); p++) {
 		pomOrganism = getWorld()->getOrganismFromPosition(positionToSearch[p]);
 		if (pomOrganism != nullptr) {
-			if (pomOrganism->getStrength() < getStrength()) {
+			if (pomOrganism->getStrength() <= getStrength()) {
 				result.push_back(positionToSearch[p]);
 			}
 		}

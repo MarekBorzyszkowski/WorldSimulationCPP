@@ -14,7 +14,7 @@ Human::Human(Human* human, Position* position, World* world)
 
 std::vector<Action> Human::move() {
     inspectStrength();
-    getAction();
+    whatToDo = getWorld()->getWhatToDo();
     if (whatToDo != SPECIAL) {
         std::vector<Action> result;
         std::vector<Action> pomVector;
@@ -44,7 +44,6 @@ std::vector<Action> Human::move() {
         }
         if (getWorld()->positionOnBoard(newPosition)) {
             result.push_back(Action(MOVE, 0, newPosition, this));
-            setLastPosition(getPosition());
             Organism* metOrganism = getWorld()->getOrganismFromPosition(*newPosition);
             if (metOrganism != nullptr) {
                 pomVector = metOrganism->collision(this);
@@ -56,7 +55,7 @@ std::vector<Action> Human::move() {
     return std::vector<Action>();
 }
 std::vector<Action> Human::action() {
-    if (whatToDo == SPECIAL) {
+    if (whatToDo == SPECIAL && canUseSpecial) {
         std::vector<Action> result;
         if (getStrength() <= 10) {
             strengthIncreased = 10 - baseStrength;
@@ -65,6 +64,10 @@ std::vector<Action> Human::action() {
         turnsToUseSpecial = 10;
         canUseSpecial = false;
         return result;
+    }
+    if ( whatToDo == SPECIAL && !canUseSpecial) {
+        std::cout << "Human cannot use its special ability, must wait: " 
+            << turnsToUseSpecial << '\n';
     }
     return std::vector<Action>();
 }
@@ -91,51 +94,7 @@ Organism* Human::clone() {
 	return new Human(this, nullptr, world);
 }
 
-void Human::getAction() {
-    int c;
-    while (1) {
-        c = 0;
-        switch ((c = _getch())) {
-        case 224: {
-            switch ((c = _getch())) {
-                case KEY_UP: {
-                    whatToDo = UP;
-                    return;
-                }
-                case KEY_DOWN: {
-                    whatToDo = DOWN;
-                    return;
-                }
-                case KEY_LEFT: {
-                    whatToDo = LEFT;
-                    return;
-                }
-                case KEY_RIGHT: {
-                    whatToDo = RIGHT;
-                    return;
-                }
-                default: {
-                    break;
-                }
-            }
-            break;
-        }
-        case 's': {
-            if (canUseSpecial) {
-                whatToDo = SPECIAL;
-                return;
-            }
-            std::cout << "You must wait " << turnsToUseSpecial << " turns to use special ability.\n";
-            break;
-        }
-        default:
-            break;
-        }
-
-    }
-}
-
-void Human::inspectStrength() {//TODO check logic in this method
+void Human::inspectStrength() {
     if (canUseSpecial && baseStrength != getStrength()) {
         baseStrength = getStrength();
         return;

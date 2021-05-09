@@ -16,6 +16,8 @@ class Action;
 #define LEFT 2
 #define RIGHT 3
 #define SPECIAL 4
+#define SAVE 5
+#define ENDGAME 6
 
 class World {
 private:
@@ -34,6 +36,7 @@ public:
 	int getXLength() const;
 	int getYLength() const;
 	int getTurn() const;
+	int getWhatToDo() const;
 	char getEmptyPlace() const;
 	std::vector<Organism*> getOrganisms() const;
 	std::vector<Organism*> getNewOrganisms() const;
@@ -42,7 +45,7 @@ public:
 	void setOrganisms(std::vector<Organism*>);
 	void setNewOrganisms(std::vector<Organism*>);
 
-	void makeTurn();
+	bool makeTurn();
 
 	void makeMove(Action);
 
@@ -61,6 +64,11 @@ public:
 	
 	std::vector<Position> filterPositionsWithOtherSpecies(std::vector<Position>);
 
+	void save();
+
+	void draw();
+
+	void clear();
 };
 
 #endif

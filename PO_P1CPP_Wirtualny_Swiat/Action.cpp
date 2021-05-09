@@ -8,18 +8,18 @@ std::ostream& operator<<(std::ostream& os, const Action& action) {
 	switch (action.getAction()) {
 	case 0: {
 		os << action.getOrganism()->getName()
-			<< " add at: " << action.getPositon();
+			<< " add at: " << *action.getPositon();
 		break;
 	}
 	case 1: {
 		os << action.getOrganism()->getName()
-			<< " remove from: " << action.getOrganism()->getPosition();
+			<< " remove from: " << *action.getOrganism()->getPosition();
 		break;
 	}
 	case 2: {
 		os << action.getOrganism()->getName()
-			<< " move from: " << action.getOrganism()->getPosition()
-			<< " to: " << action.getPositon();
+			<< " move from: " << *action.getOrganism()->getPosition()
+			<< " to: " << *action.getPositon();
 		break;
 	}
 	case 3: {
@@ -28,6 +28,7 @@ std::ostream& operator<<(std::ostream& os, const Action& action) {
 		break;
 	}
 	}
+	os << '\n';
 	return os;
 }
 

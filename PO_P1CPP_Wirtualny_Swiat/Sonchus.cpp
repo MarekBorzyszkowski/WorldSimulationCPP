@@ -13,7 +13,7 @@ void Sonchus::initialParameters() {
 	setStrength(0);
 	setInitiative(0);
 	setAge(0);
-	setSign('G');
+	setSign('U');
 	setName("Sonchus");
 	growthRate = 3;
 }

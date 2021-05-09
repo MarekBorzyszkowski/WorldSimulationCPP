@@ -15,7 +15,7 @@ std::vector<Action> Borscht::action() {
 	std::vector<Position> positionsToCheck = getWorld()
 		->filterPositionsWithoutAnimals(getNeighboringPositions());
 	Organism* pomOrganism;
-	for (int i = 0; i < positionsToCheck.size(); i++) {
+	for (int i = 0; i < (int)positionsToCheck.size(); i++) {
 		pomOrganism = getWorld()->getOrganismFromPosition(positionsToCheck[i]);
 		result.push_back(Action(REMOVE, 0, pomOrganism->getPosition(), pomOrganism));
 	}

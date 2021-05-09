@@ -8,16 +8,16 @@ Organism::Organism(Organism* organism, Position* position, World* world) {
 	age = NULL;
 	sign = NULL;
 	name = "";
-	position = nullptr;
-	world = nullptr; 
+	this->position = nullptr;
+	this->world = nullptr; 
 	if (organism != nullptr) {
 		strength = organism->getStrength();
 		initiative = organism->getInitiative();
 		age = organism->getAge();
 		sign = organism->getSign();
 		name = organism->getName();
-		position = organism->getPosition();
-		world = organism->getWorld();
+		this->position = organism->getPosition();
+		this->world = organism->getWorld();
 	}
 	else {
 		if (position != nullptr) {

@@ -4,14 +4,9 @@
 
 class Animal : public Organism {
 protected:
-	Position* lastPosition;
 	bool canReproduce;
 public:
 	Animal(Animal*, Position* , World* );
-
-	Position* getLastPosition() const;
-
-	void setLastPosition(Position*);
 
 	virtual std::vector<Action> move() override;
 	std::vector<Action> action() override;

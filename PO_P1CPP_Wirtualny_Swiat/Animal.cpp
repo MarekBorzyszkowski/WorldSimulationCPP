@@ -2,18 +2,9 @@
 
 Animal::Animal(Animal* animal, Position* position, World* world)
 	: Organism(animal, position, world) {
-	lastPosition = position;
 	canReproduce = false;
 }
 
-Position* Animal::getLastPosition() const {
-	return lastPosition;
-}
-
-void Animal::setLastPosition(Position* newLastPosition) {
-	lastPosition->setX(newLastPosition->getX());
-	lastPosition->setY(newLastPosition->getY());
-}
 
 std::vector<Action> Animal::move() {
 	std::vector<Action> result;
@@ -24,17 +15,19 @@ std::vector<Action> Animal::move() {
 	if (pomPositions.size() > 0) {
 		placeIndex = rand() % pomPositions.size();
 		newPosition = new Position(pomPositions[placeIndex].getX(), pomPositions[placeIndex].getY());
-		result.push_back(Action(MOVE, 0, newPosition, this));
-		setLastPosition(getPosition());
 		Organism* metOrganism = getWorld()->getOrganismFromPosition(*newPosition);
 		if (metOrganism != nullptr) {
 			if (metOrganism->getName() == getName()) {
 				canReproduce = true;
 			}
 			else {
+				result.push_back(Action(MOVE, 0, newPosition, this));
 				pomVector = metOrganism->collision(this);
 			}
 			result.insert(std::end(result), std::begin(pomVector), std::end(pomVector));
+		}
+		else {
+			result.push_back(Action(MOVE, 0, newPosition, this));
 		}
 	}
 	return result;

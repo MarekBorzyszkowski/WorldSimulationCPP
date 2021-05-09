@@ -1,6 +1,7 @@
 #include "World.h"
 #include <algorithm>
 #include <conio.h>
+#include <fstream>
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -11,7 +12,8 @@ World::World(int x, int y) :
 	xLength(x),
 	yLength(y),
 	turn(0),
-	emptyPlace('.'){
+	emptyPlace('.'),
+	whatToDo(0)	{
 	srand(time(NULL));
 }
 
@@ -23,6 +25,9 @@ int World::getYLength() const {
 }
 int World::getTurn() const {
 	return turn;
+}
+int World::getWhatToDo() const {
+	return whatToDo;
 }
 char World::getEmptyPlace() const {
 	return emptyPlace;
@@ -44,8 +49,11 @@ void World::setNewOrganisms(std::vector<Organism*> newOrganisms) {
 	this->newOrganisms = newOrganisms;
 }
 
-void World::makeTurn() {
-	//(c = _getch())
+bool World::makeTurn() {
+	getAction();
+	if (whatToDo == ENDGAME) {
+		return false;
+	}
 	std::vector<Action> actions;
 	for (int o = 0; o < (int)organisms.size(); o++) {
 		if (positionOnBoard(organisms[o]->getPosition())) {
@@ -77,13 +85,16 @@ void World::makeTurn() {
 	}
 	std::sort(organisms.begin(), organisms.end(), [](const Organism* x, const Organism* y) {
 		if (x->getInitiative() != y->getInitiative()) {
-			return x->getInitiative() < y->getInitiative();
+			return x->getInitiative() > y->getInitiative();
 		}
-		return x->getAge() < y->getAge();
+		return x->getAge() > y->getAge();
 		});
 	//TODO: CHECK SORT ALGORITHM 
 	newOrganisms.clear();
 	turn++;
+	std::cout << "Press eny key to do end turn.";
+	_getch();
+	return true;
 }
 
 void World::makeMove(Action action) {
@@ -133,15 +144,16 @@ void World::getAction() {
 			break;
 		}
 		case 's': {
-			if (canUseSpecial) {
-				whatToDo = SPECIAL;
-				return;
-			}
-			std::cout << "You must wait " << turnsToUseSpecial << " turns to use special ability.\n";
-			break;
+			whatToDo = SPECIAL;
+			return;
 		}
 		case 'v': {
-			//save;
+			save();
+			std::cout << "game saved!\n";
+			break;
+		}
+		case 'e': {
+			whatToDo = ENDGAME;
 			return;
 		}
 		default:
@@ -155,13 +167,10 @@ bool World::addOrganism(Organism* newO) {
 	if (positionOnBoard(newO->getPosition())) {
 		organisms.push_back(newO);
 		std::sort(organisms.begin(), organisms.end(), [](const Organism* x, const Organism* y) {
-			// compare last names first
 			if (x->getInitiative() != y->getInitiative()) {
-				return x->getInitiative() < y->getInitiative();
+				return x->getInitiative() > y->getInitiative();
 			}
-
-			// compare first names only if the last names are equal
-			return x->getAge() < y->getAge();
+			return x->getAge() > y->getAge();
 			}); 
 		return true;
 	}
@@ -200,7 +209,8 @@ std::vector<Position> World::getNeighboringPositions(Position p) const{
 	for (int x = -1; x < 2; x++) {
 		for (int y = -1; y < 2; y++) {
 			positionToCheck = Position(p.getX() + x, p.getY() + y);
-			if (positionOnBoard(&positionToCheck) && (y != 0 || x != 0)) {
+			if (positionOnBoard(&positionToCheck)
+				&& (y != 0 || x != 0) && (y ==0 || x == 0)) {
 				result.push_back(positionToCheck);
 			}
 		}
@@ -241,9 +251,36 @@ std::vector<Position> World::filterPositionsWithOtherSpecies(std::vector<Positio
 	return result;
 }
 
+void World::save() {
+	std::ofstream out;
+	out.open("save.txt");
+	out << xLength << " " << yLength << " " 
+		<< turn <<" "<< organisms.size() <<  '\n';
+	Organism* org;
+	for (int i = 0; i < (int)organisms.size(); i++) {
+		org = organisms[i];
+		out << org->getSign() << " " << org->getStrength() << " "
+			<< org->getAge() << " " << org->getPosition()->getX() << " "
+			<< org->getPosition()->getY() << '\n';
+	}
+}
+
+void World::clear() {
+	std::cout << "\x1B[2J\x1B[H";
+}
+
+void World::draw() {
+	clear();
+	std::cout << "Use arrow keys to move, s - special move, v - save, e - endgame"
+		<< *this;
+}
+
 std::ostream& operator<<(std::ostream& os, const World& world) {
 	Organism* pomOrg;
-	os << "\nTurn: " << world.getTurn() << "\n";
+	os  << "\nH - human\n"
+		<<"A - Antylope, F - fox, S - sheep, T - turtle, W - wofl\n"
+		<<"B - borscht, G - grass, + - guarana, U - sonchus, R - Wberry\n"
+		<< "Turn: " << world.getTurn() << "\n\n";
 	for (int x = 0; x < world.getXLength(); x++) {
 		for (int y = 0; y < world.getYLength(); y++) {
 			pomOrg = world.getOrganismFromPosition(Position(x, y));
@@ -254,6 +291,8 @@ std::ostream& operator<<(std::ostream& os, const World& world) {
 				os << world.getEmptyPlace();
 			}	
 		}
+		os << '\n';
 	}
+	os << '\n';
 	return os;
 }

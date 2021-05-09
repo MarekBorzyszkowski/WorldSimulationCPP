@@ -26,8 +26,6 @@ std::vector<Action> Turtle::move() {
 }
 
 std::vector<Action> Turtle::collision(Organism* atackingOrganism) {
-	//TODO: move lastPosition from Animal to Organism
-	
 	std::vector<Action> result;
 	if (atackingOrganism->getStrength() < 5) {
 		Position* lastOrgPosition = new Position(atackingOrganism->getPosition()->getX(),

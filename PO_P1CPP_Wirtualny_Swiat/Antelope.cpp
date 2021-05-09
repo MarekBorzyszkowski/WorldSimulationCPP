@@ -1,4 +1,5 @@
 #include "Antelope.h"
+#include <cmath>
 
 Antelope::Antelope(Antelope* antelope, Position* position, World* world)
 	:Animal(antelope, position, world) {
@@ -44,7 +45,8 @@ std::vector<Position> Antelope::getNeighboringPositions() {
 	for (int x = -2; x < 3; x++) {
 		for (int y = -2; y < 3; y++) {
 			positionToCheck = Position(currPosition.getX() + x, currPosition.getY() + y);
-			if (getWorld()->positionOnBoard(&positionToCheck) && (y != 0 || x != 0)) {
+			if (getWorld()->positionOnBoard(&positionToCheck) && (y != 0 || x != 0)
+				&& ((abs(x)==2 && y == 0 || abs(y) == 2 && x == 0) || (abs(x)<2&&abs(y)))) {
 				result.push_back(positionToCheck);
 			}
 		}
